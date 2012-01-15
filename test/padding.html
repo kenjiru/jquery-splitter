@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Language" content="en" />
@@ -17,13 +17,30 @@ html, body {
 }
 
 body {
-    padding: 10px;
+    background-color: #f0f0f0;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
 
 #MainSplitter {
-	/* Height is set to match window size in $().ready() below */
+    /* Height is set to match window size in $().ready() below */
 	min-width:  600px;
 	min-height: 300px;
+
+    padding: 10px;
+    margin: 7px;
+    border:  5px solid red;
+
+    overflow: auto;
+    background-color: #90ee90;
+}
+#SecondarySplitter {
+/*    padding: 10px;
+    margin: 7px;
+    border:  5px solid blue;*/
 }
 .SplitterPane {
 	background: #eef;
@@ -48,9 +65,10 @@ $().ready(function() {
 		outline: true,
 		minLeft: 100, sizeLeft: 150, maxLeft: 250,
 		anchorToWindow: true,
+        fillHeight: true,
 		accessKey: "L"
 	});
-    
+
 	// Second vertical splitter, nested in the right pane of the main one.
 	$("#SecondarySplitter").splitter({
 		type: "v",
@@ -64,27 +82,39 @@ $().ready(function() {
 <body>
 
 <div id="MainSplitter">
+    <div class="SplitterPane">
+        <p>This is the left pane of the 3-column splitter. It has been limited 
+        to a range of 100 to 250 pixels wide by inline styles. It starts at 150 
+        pixels wide.</p>
+    </div>
 
-  <div class="SplitterPane">
-		<p>This is the left pane of the 3-column splitter. It has been limited to a range of 100 to 250 pixels wide by inline styles. It starts at 150 pixels wide.</p>
-  </div> 
-  
-  <div id="SecondarySplitter">
-  
-	<div class="SplitterPane">
-		<p>This is the center part of the 3-column splitter. It does most of the resizing because the left and right panes were given initial sizes and limits. Try resizing the browser window or moving a splitbar to see what I mean.</p>
-		<p>The splitbars are keyboard-accessible. Use <kbd>Alt-Shift-L</kbd> to select the left vertical splitbar, or <kbd>Alt-Shift-R</kbd> for the right one. (Or, press tab until the splitbar you want to move is in focus.) Then use the arrow keys to move the bar. </p>
+    <div id="SecondarySplitter">
+        <div class="SplitterPane">
+            <p>This is the center part of the 3-column splitter. It does most 
+            of the resizing because the left and right panes were given initial 
+            sizes and limits. Try resizing the browser window or moving a 
+            splitbar to see what I mean.</p>
+            
+            <p>The splitbars are keyboard-accessible. Use 
+            <kbd>Alt-Shift-L</kbd> to select the left vertical splitbar, or 
+            <kbd>Alt-Shift-R</kbd> for the right one. (Or, press tab until the 
+            splitbar you want to move is in focus.) Then use the arrow keys to 
+            move the bar. </p>
+            
+            <p>Splitters nested one or two levels deep are a great solution for 
+            user interfaces that just need a small number of user-resizable 
+            panes. If the data is more tabular in nature, it would be better to 
+            build a plugin that accepted a table as input and created resizable 
+            columns.</p>
+        </div>
+        <div class="SplitterPane">
+            <p>This is the right pane of the 3-column splitter. It has been 
+            limited to a range of 100 to 250 pixels wide by inline styles. It 
+            starts at 150 pixels wide.</p>
+        </div>
+    </div>
 
-		<p>Splitters nested one or two levels deep are a great solution for user interfaces that just need a small number of user-resizable panes. If the data is more tabular in nature, it would be better to build a plugin that accepted a table as input and created resizable columns.</p>
-	</div>
-	
-	<div class="SplitterPane">
-		<p>This is the right pane of the 3-column splitter. It has been limited to a range of 100 to 250 pixels wide by inline styles. It starts at 150 pixels wide.</p>
-	</div>
-	
-  </div> <!-- #SecondarySplitter -->
-  
-</div> <!-- #MainSplitter -->
+</div>
 
 </body>
 </html>
