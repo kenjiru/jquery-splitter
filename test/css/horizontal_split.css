@@ -1,0 +1,65 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #f0f0f0;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+#MainSplitter {
+    width: auto;
+    height: 500px;
+
+    padding: 10px;
+    margin: 7px;
+    border:  5px solid red;
+
+    overflow: auto;
+    background-color: #90ee90;
+}
+
+.mainTop {
+    margin: 10px;
+    border: 3px solid blue;
+    padding: 5px;
+}
+
+#SecondarySplitter {
+    padding: 10px;
+    margin: 7px;
+    border:  5px solid blue;
+}
+
+.secondaryTop {
+    margin: 15px;
+    border: 3px solid blue;
+    padding: 5px;
+}
+
+.secondaryBottom {
+    margin: 7px;
+    border: 3px solid black;
+    padding: 5px;
+}
+
+.SplitterPane {
+	background: #eef;
+	overflow: auto;
+}
+.hsplitbar {
+    height: 6px;
+	background-color: #669;
+}
+.hsplitbar.active, .hsplitbar:hover {
+	background-color: #c66;
+	opacity: 0.7;
+}

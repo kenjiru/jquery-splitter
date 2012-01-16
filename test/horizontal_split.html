@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Horizontal Test</title>
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="../src/splitter.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/horizontal_split.css"/>
+
+    <script type="text/javascript">
+    $().ready(function() {
+        // Main vertical splitter, anchored to the browser window
+    	$("#MainSplitter").splitter({
+    		splitHorizontal: true,
+        	outline: true,
+    		sizeTop: 100, minTop: 50, maxTop: 200,
+    		accessKey: "V"
+    	});
+    
+    	// Second vertical splitter, nested in the right pane of the main one.
+    	$("#SecondarySplitter").splitter({
+    		splitHorizontal: true,
+        	outline: true,
+    		sizeBottom: 120, minTop: 50,
+    		accessKey: "J"
+    	});
+    });
+    </script>
+</head>
+<body>
+
+<div id="MainSplitter"> 
+ 
+    <div class="mainTop SplitterPane">
+    	<p>This is the top-right horizontal pane. It tries to stay at its 
+        current size if you resize the bottom horizontal splitbar.</p>
+    	<p>The splitbars are keyboard-accessible. Use <kbd>Alt-Shift-V</kbd> to 
+        select the vertical splitbar, or <kbd>Alt-Shift-H</kbd> for the 
+        horizontal one. Then use the arrow keys to move the bar. The plugin 
+        lets you specify any key for the access key, but be sure to test on all 
+        browsers in case they reserve those keystrokes.</p>
+    
+    	<p>To move the horizontal splitbar below this pane using the keyboard, 
+        use the "V" accelerator key (Alt-Shift-V in IE and Firefox).</p>
+    </div>
+    
+    <div id="SecondarySplitter">
+    	<div class="secondaryTop SplitterPane">
+    		<p>This is the middle-right pane, which starts at a height that 
+            varies depending on the height of the browser window. Since the top 
+            pane has <code>sizeTop: 100</code> and the bottom pane has 
+            <code>sizeBottom: 120</code>, this pane gets whatever is left over. 
+            The overall size of the splitter has been set to <code>min-height: 
+            300px</code> in the style sheet, so it will be at least 80 pixels 
+            high.</p>
+    
+    	</div>
+        
+    	<div class="secondaryBottom SplitterPane">
+    		<p>This is the bottom-right pane of the splitter. It tries to stay 
+            at its current size if you resize the top horizontal splitbar.</p>
+    		<p>To move the horizontal splitbar above this pane using the 
+            keyboard, use the "J" accelerator key (Alt-Shift-J in IE and 
+            Firefox).</p>
+    	</div>
+    </div>
+	
+</div> 
+
+</body>
+</html>

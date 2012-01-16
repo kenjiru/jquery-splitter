@@ -3,33 +3,33 @@
 <head>
     <meta http-equiv="Content-Language" content="en" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>jQuery 3-Column Splitter</title>
+    <title>Vertical Test</title>
+    
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
     <script type="text/javascript" src="../src/splitter.js"></script>
-
     <link rel="stylesheet" type="text/css" href="css/vertical_split.css"/>
 
-<script type="text/javascript">
-$().ready(function() {
-	// Main vertical splitter, anchored to the browser window
-	$("#MainSplitter").splitter({
-		type: "v",
-		outline: true,
-		minLeft: 100, sizeLeft: 150, maxLeft: 250,
-		anchorToWindow: true,
-        fillHeight: true,
-		accessKey: "L"
-	});
-
-	// Second vertical splitter, nested in the right pane of the main one.
-	$("#SecondarySplitter").splitter({
-		type: "v",
-		outline: true,
-		minRight: 100, sizeRight: 150, maxRight: 250,
-		accessKey: "R"
-	});
-});
-</script>
+    <script type="text/javascript">
+    $().ready(function() {
+    	// Main vertical splitter, anchored to the browser window
+    	$("#MainSplitter").splitter({
+    		type: "v",
+    		outline: true,
+    		minLeft: 100, sizeLeft: 150, maxLeft: 250,
+    		anchorToWindow: true,
+            fillHeight: true,
+    		accessKey: "L"
+    	});
+    
+    	// Second vertical splitter, nested in the right pane of the main one.
+    	$("#SecondarySplitter").splitter({
+    		type: "v",
+    		outline: true,
+    		minRight: 100, sizeRight: 150, maxRight: 250,
+    		accessKey: "R"
+    	});
+    });
+    </script>
 </head>
 <body>
 
