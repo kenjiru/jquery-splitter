@@ -43,18 +43,18 @@
 
             function initContainer() {
                 container.css({position: "relative"});
-                container.primaryOffset = 0;
-                container.secondaryOffset = 0;
+                container.primaryDelta = 0;
+                container.secondaryryDelta = 0;
 
                 if ($.support.boxModel) {
-                    container.primaryOffset = dimSum(container,
+                    container.primaryDelta = dimSum(container,
                         "border" + options.side1 + "Width",
                         "border" + options.side2 + "Width",
                         "padding-" + options.side1,
                         "padding-" + options.side2
                     );
 
-                    container.secondaryOffset = dimSum(container,
+                    container.secondaryryDelta = dimSum(container,
                         "border" + options.side3 + "Width",
                         "border" + options.side4 + "Width",
                         "padding-" + options.side3,
@@ -162,11 +162,11 @@
                 initPos = firstPane.initSize;
 
                 if (!isNaN(secondPane.initSize)) { // recalc initial secondPane size as an offset from the top or left side
-                    initPos = container[0][options.pxSplit] - container.primaryOffset - secondPane.initSize - splitbar.primaryDimension;
+                    initPos = container[0][options.pxSplit] - container.primaryDelta - secondPane.initSize - splitbar.primaryDimension;
                 }
 
                 if (isNaN(initPos)) { // King Solomon's algorithm
-                    initPos = Math.round((container[0][options.pxSplit] - container.primaryOffset - splitbar.primaryDimension) / 2);
+                    initPos = Math.round((container[0][options.pxSplit] - container.primaryDelta - splitbar.primaryDimension) / 2);
                 }
 
                 container.trigger("resize", [initPos]);
@@ -233,10 +233,10 @@
                 containerDecorations = container.outerHeight(true) - container.height();
 
                 container.height(parentHeight - containerDecorations);
-
+                
                 // Determine new width/height of splitter container
-                container.primaryDimension = container[0][options.pxSplit] - container.primaryOffset;
-                container.secondaryDimension = container[0][options.pxFixed] - container.secondaryOffset;
+                container.primaryDimension = container[0][options.pxSplit] - container.primaryDelta;
+                container.secondaryDimension = container[0][options.pxFixed] - container.secondaryryDelta;
 
                 // Bail if splitter isn't visible or content isn't there yet
                 if (container.secondaryDimension <= 0 || container.primaryDimension <= 0) {
@@ -245,8 +245,14 @@
                 }
 
                 // Re-divvy the adjustable dimension; maintain size of the preferred pane
-                resplit(!isNaN(size) ? size : (!(options.sizeRight || options.sizeBottom) ? firstPane[0][options.pxSplit] :
-                    container.primaryDimension - secondPane[0][options.pxSplit] - splitbar.primaryDimension));
+                if (isNaN(size)) { 
+                    if(!(options.sizeRight || options.sizeBottom)) { 
+                        size = firstPane[0][options.pxSplit];
+                    } else {
+                        size = container.primaryDimension - secondPane[0][options.pxSplit] - splitbar.primaryDimension;
+                    }
+                }
+                resplit(size);
             }
 
             function resplit(newPos) {
