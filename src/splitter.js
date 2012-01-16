@@ -231,8 +231,13 @@
 
                 parentHeight = container.parent().height();
                 containerDecorations = container.outerHeight(true) - container.height();
+                var offset = container.position().top;
+                
+                if(!isNaN(offset) && offset > 0) {
+                    offset -= dimSum(container.parent(), 'padding-top');
+                }
 
-                container.height(parentHeight - containerDecorations);
+                container.height(parentHeight - containerDecorations - offset);
                 
                 // Determine new width/height of splitter container
                 container.primaryDimension = container[0][options.pxSplit] - container.primaryDelta;
@@ -274,7 +279,7 @@
                     .css(options.fixed, container.secondaryDimension - firstPane.secondaryDelta);
 
                 secondPane.css(options.origin, newPos + splitbar.primaryDimension)
-                    .css(options.split, container.primaryDimension - splitbar.primaryDimension - newPos - secondPane.primaryDelta)
+                    .css(options.split, container.primaryDimension - newPos - splitbar.primaryDimension - secondPane.primaryDelta)
                     .css(options.fixed, container.secondaryDimension - secondPane.secondaryDelta);
 
                 // IE fires resize for us; all others pay cash
