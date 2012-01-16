@@ -44,7 +44,7 @@
             function initContainer() {
                 container.css({position: "relative"});
                 container.primaryDelta = 0;
-                container.secondaryryDelta = 0;
+                container.secondaryDelta = 0;
 
                 if ($.support.boxModel) {
                     container.primaryDelta = dimSum(container,
@@ -54,7 +54,7 @@
                         "padding-" + options.side2
                     );
 
-                    container.secondaryryDelta = dimSum(container,
+                    container.secondaryDelta = dimSum(container,
                         "border" + options.side3 + "Width",
                         "border" + options.side4 + "Width",
                         "padding-" + options.side3,
@@ -100,7 +100,7 @@
                         parseInt($.curCSS(this[0], options.split), 10) :
                         options["size" + this.paneName];
 
-                    this.primaryDelta = this['outer' + capitalize(options.split)](true) - this[options.split](),
+                    this.primaryDelta = this['outer' + capitalize(options.split)](true) - this[options.split]();
                     this.secondaryDelta = this['outer' + capitalize(options.fixed)](true) - this[options.fixed]();
                 });
             }
@@ -164,11 +164,11 @@
                 if (!isNaN(secondPane.initSize)) { // recalc initial secondPane size as an offset from the top or left side
                     initPos = container[0][options.pxSplit] - container.primaryDelta - secondPane.initSize - splitbar.primaryDimension;
                 }
-
+/*
                 if (isNaN(initPos)) { // King Solomon's algorithm
                     initPos = Math.round((container[0][options.pxSplit] - container.primaryDelta - splitbar.primaryDimension) / 2);
                 }
-
+*/
                 container.trigger("resize", [initPos]);
             }
 
@@ -241,7 +241,7 @@
                 
                 // Determine new width/height of splitter container
                 container.primaryDimension = container[0][options.pxSplit] - container.primaryDelta;
-                container.secondaryDimension = container[0][options.pxFixed] - container.secondaryryDelta;
+                container.secondaryDimension = container[0][options.pxFixed] - container.secondaryDelta;
 
                 // Bail if splitter isn't visible or content isn't there yet
                 if (container.secondaryDimension <= 0 || container.primaryDimension <= 0) {
@@ -278,7 +278,7 @@
                     .css(options.split, newPos - firstPane.primaryDelta)
                     .css(options.fixed, container.secondaryDimension - firstPane.secondaryDelta);
 
-                secondPane.css(options.origin, newPos + splitbar.primaryDimension)
+                secondPane.css(options.origin, newPos + container.offsetOrigin + splitbar.primaryDimension)
                     .css(options.split, container.primaryDimension - newPos - splitbar.primaryDimension - secondPane.primaryDelta)
                     .css(options.fixed, container.secondaryDimension - secondPane.secondaryDelta);
 
