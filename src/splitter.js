@@ -33,7 +33,7 @@
                 // Create jQuery object closures for splitter and both panes
                 container = $(this),
                 firstPane, secondPane, splitbar, focuser,
-                initPos, cookieInitPos, state;
+                initPos;
 
             initContainer();
             initPanes();
@@ -99,6 +99,9 @@
                     this.initSize = options["size" + this.paneName] === true ?
                         parseInt($.curCSS(this[0], options.split), 10) :
                         options["size" + this.paneName];
+
+                    this.primaryDelta = this['outer' + capitalize(options.split)](true) - this[options.split](),
+                    this.secondaryDelta = this['outer' + capitalize(options.fixed)](true) - this[options.fixed]();
                 });
             }
 
@@ -157,11 +160,12 @@
 
             function initialPosition() {
                 initPos = firstPane.initSize;
-                if (!isNaN(secondPane.initSize)) {   // recalc initial secondPane size as an offset from the top or left side
+
+                if (!isNaN(secondPane.initSize)) { // recalc initial secondPane size as an offset from the top or left side
                     initPos = container[0][options.pxSplit] - container.primaryOffset - secondPane.initSize - splitbar.primaryDimension;
                 }
 
-                if (isNaN(initPos)) {    // King Solomon's algorithm
+                if (isNaN(initPos)) { // King Solomon's algorithm
                     initPos = Math.round((container[0][options.pxSplit] - container.primaryOffset - splitbar.primaryDimension) / 2);
                 }
 
@@ -178,7 +182,9 @@
                 secondPane.css("-webkit-user-select", "none");
 
                 splitbar.addClass(options.activeClass);
-                firstPane._posSplit = firstPane[0][options.pxSplit] - evt[options.eventPos];
+                firstPane._posSplit = firstPane[0][options.pxSplit] - evt[options.eventPos] +
+                    dimSum(container, 'padding-' + options.side1) +
+                    dimSum(firstPane, 'margin-' + options.side1, 'margin-' + options.side2);
                 $(document)
                     .bind("mousemove", doSplitMouse)
                     .bind("mouseup", endSplitMouse);
@@ -186,6 +192,7 @@
 
             function doSplitMouse(evt) {
                 var newPos = firstPane._posSplit + evt[options.eventPos];
+
                 if (options.outline) {
                     newPos = Math.max(0, Math.min(newPos, container.primaryDimension - splitbar.primaryDimension));
                     splitbar.css(options.origin, newPos);
@@ -215,15 +222,14 @@
             }
 
             function resizeContainer(e, size) {
-                var parent, parentHeight, containerDecorations;
+                var parentHeight, containerDecorations;
 
                 // Custom events bubble in jQuery 1.3; don't get into a Yo Dawg
                 if (e.target !== this) {
                     return;
                 }
 
-                parent = container.parent();
-                parentHeight = parent.height();
+                parentHeight = container.parent().height();
                 containerDecorations = container.outerHeight(true) - container.height();
 
                 container.height(parentHeight - containerDecorations);
@@ -257,13 +263,13 @@
                     .css(options.fixed, container.secondaryDimension);
 
                 // Resize/position the two panes
-                firstPane.css(options.origin, container.offsetOrigin)
-                    .css(options.split, newPos)
-                    .css(options.fixed, container.secondaryDimension);
+                firstPane/*.css(options.origin, container.offsetOrigin)*/ // we don't need to set the offset
+                    .css(options.split, newPos - firstPane.primaryDelta)
+                    .css(options.fixed, container.secondaryDimension - firstPane.secondaryDelta);
 
                 secondPane.css(options.origin, newPos + splitbar.primaryDimension)
-                    .css(options.split, container.primaryDimension - splitbar.primaryDimension - newPos)
-                    .css(options.fixed, container.secondaryDimension);
+                    .css(options.split, container.primaryDimension - splitbar.primaryDimension - newPos - secondPane.primaryDelta)
+                    .css(options.fixed, container.secondaryDimension - secondPane.secondaryDelta);
 
                 // IE fires resize for us; all others pay cash
                 if (!$.browser.msie || ($.browser.msie && parseInt($.browser.version, 10) >= 9)) {
@@ -281,6 +287,10 @@
                 }
 
                 return sum;
+            }
+
+            function capitalize(word) {
+                return word.charAt(0).toUpperCase() + word.slice(1);
             }
         });
     };

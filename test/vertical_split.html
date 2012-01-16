@@ -30,6 +30,8 @@ body {
 	min-width:  600px;
 	min-height: 300px;
 
+    width: auto;
+
     padding: 10px;
     margin: 7px;
     border:  5px solid red;
@@ -37,11 +39,31 @@ body {
     overflow: auto;
     background-color: #90ee90;
 }
+
+.mainLeft {
+    margin: 10px;
+    border: 3px solid blue;
+    padding: 5px;
+}
+
 #SecondarySplitter {
 /*    padding: 10px;
     margin: 7px;
     border:  5px solid blue;*/
 }
+
+.secondaryLeft {
+    margin: 15px;
+    border: 3px solid blue;
+    padding: 5px;
+}
+
+.secondaryRight {
+    margin: 7px;
+    border: 3px solid black;
+    padding: 5px;
+}
+
 .SplitterPane {
 	background: #eef;
 	overflow: auto;
@@ -82,39 +104,27 @@ $().ready(function() {
 <body>
 
 <div id="MainSplitter">
-    <div class="SplitterPane">
-        <p>This is the left pane of the 3-column splitter. It has been limited 
-        to a range of 100 to 250 pixels wide by inline styles. It starts at 150 
-        pixels wide.</p>
-    </div>
 
-    <div id="SecondarySplitter">
-        <div class="SplitterPane">
-            <p>This is the center part of the 3-column splitter. It does most 
-            of the resizing because the left and right panes were given initial 
-            sizes and limits. Try resizing the browser window or moving a 
-            splitbar to see what I mean.</p>
-            
-            <p>The splitbars are keyboard-accessible. Use 
-            <kbd>Alt-Shift-L</kbd> to select the left vertical splitbar, or 
-            <kbd>Alt-Shift-R</kbd> for the right one. (Or, press tab until the 
-            splitbar you want to move is in focus.) Then use the arrow keys to 
-            move the bar. </p>
-            
-            <p>Splitters nested one or two levels deep are a great solution for 
-            user interfaces that just need a small number of user-resizable 
-            panes. If the data is more tabular in nature, it would be better to 
-            build a plugin that accepted a table as input and created resizable 
-            columns.</p>
-        </div>
-        <div class="SplitterPane">
-            <p>This is the right pane of the 3-column splitter. It has been 
-            limited to a range of 100 to 250 pixels wide by inline styles. It 
-            starts at 150 pixels wide.</p>
-        </div>
-    </div>
+  <div class="mainLeft SplitterPane">
+		<p>This is the left pane of the 3-column splitter. It has been limited to a range of 100 to 250 pixels wide by inline styles. It starts at 150 pixels wide.</p>
+  </div>
 
-</div>
+  <div id="SecondarySplitter">
+
+	<div class="secondaryLeft SplitterPane">
+		<p>This is the center part of the 3-column splitter. It does most of the resizing because the left and right panes were given initial sizes and limits. Try resizing the browser window or moving a splitbar to see what I mean.</p>
+		<p>The splitbars are keyboard-accessible. Use <kbd>Alt-Shift-L</kbd> to select the left vertical splitbar, or <kbd>Alt-Shift-R</kbd> for the right one. (Or, press tab until the splitbar you want to move is in focus.) Then use the arrow keys to move the bar. </p>
+
+		<p>Splitters nested one or two levels deep are a great solution for user interfaces that just need a small number of user-resizable panes. If the data is more tabular in nature, it would be better to build a plugin that accepted a table as input and created resizable columns.</p>
+	</div>
+
+	<div class="secondaryRight SplitterPane">
+		<p>This is the right pane of the 3-column splitter. It has been limited to a range of 100 to 250 pixels wide by inline styles. It starts at 150 pixels wide.</p>
+	</div>
+
+  </div> <!-- #SecondarySplitter -->
+
+</div> <!-- #MainSplitter -->
 
 </body>
 </html>
