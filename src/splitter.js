@@ -35,11 +35,14 @@
                 firstPane, secondPane, splitbar, focuser,
                 initPos;
 
-            initContainer();
-            initPanes();
-            initFocuser();
-            initSplitbar();
-            initialPosition();
+            // IE needs to calculate the dimensions after the document is ready
+            $(document).ready(function() {
+                initContainer();
+                initPanes();
+                initFocuser();
+                initSplitbar();
+                initialPosition();
+            })
 
             function initContainer() {
                 container.css({position: "relative"});
@@ -65,11 +68,10 @@
                 }
 
                 // IE9 behaves like the rest of the browsers
-                if (!$.browser.msie || ($.browser.msie && parseInt($.browser.version, 10) >= 9)) {
-                    $(window).bind("resize", function() {
-                        container.trigger("resize");
-                    });
-                }
+                // TODO Resize the container only if it's parent resizes
+                $(window).resize(function() {
+                    container.trigger("resize");
+                });
 
                 // Resize event handler; triggered immediately to set initial position
                 container.bind("resize", resizeContainer);
@@ -164,11 +166,11 @@
                 if (!isNaN(secondPane.initSize)) { // recalc initial secondPane size as an offset from the top or left side
                     initPos = container[0][options.pxSplit] - container.primaryDelta - secondPane.initSize - splitbar.primaryDimension;
                 }
-/*
+
                 if (isNaN(initPos)) { // King Solomon's algorithm
                     initPos = Math.round((container[0][options.pxSplit] - container.primaryDelta - splitbar.primaryDimension) / 2);
                 }
-*/
+
                 container.trigger("resize", [initPos]);
             }
 
