@@ -17,7 +17,6 @@ body {
 
 #MainSplitter {
     width: auto;
-    height: 500px;
 
     padding: 10px;
     margin: 7px;
@@ -37,11 +36,13 @@ body {
     padding: 10px;
     margin: 7px;
     border:  5px solid blue;
+
+    overflow: hidden;
 }
 
 .secondaryTop {
     margin: 15px;
-    border: 3px solid blue;
+    border: 3px solid black;
     padding: 5px;
 }
 
@@ -52,7 +53,7 @@ body {
 }
 
 .SplitterPane {
-	background: #eef;
+    background: #eef;
 	overflow: auto;
 }
 .hsplitbar {
