@@ -35,14 +35,15 @@
                 firstPane, secondPane, splitbar, focuser,
                 initPos;
 
-            // IE needs to calculate the dimensions after the document is ready
-            $(document).ready(function() {
+            $(document).ready(init);
+
+            function init() {
                 initContainer();
                 initPanes();
                 initFocuser();
                 initSplitbar();
                 initialPosition();
-            })
+            }
 
             function initContainer() {
                 container.css({position: "relative"});
@@ -67,14 +68,17 @@
                     container.offsetOrigin = dimSum(container, 'padding-' + options.origin);
                 }
 
-                // IE9 behaves like the rest of the browsers
+                container.resize(resizeContainer);
+
                 // TODO Resize the container only if it's parent resizes
                 $(window).resize(function() {
                     container.trigger("resize");
                 });
 
                 // Resize event handler; triggered immediately to set initial position
-                container.bind("resize", resizeContainer);
+                $(document).load(function() {
+                    container.trigger("resize");
+                });
             }
 
             function initPanes() {
@@ -136,7 +140,7 @@
                 splitbar = $('<div></div>');
 
                 splitbar.insertAfter(firstPane)
-                    .css("z-index", "100")
+                    .css("z-index", "2")
                     .append(focuser)
                     .attr({
                         "class": options.splitbarClass,
@@ -166,7 +170,6 @@
                 if (!isNaN(secondPane.initSize)) { // recalc initial secondPane size as an offset from the top or left side
                     initPos = container[0][options.pxSplit] - container.primaryDelta - secondPane.initSize - splitbar.primaryDimension;
                 }
-
                 if (isNaN(initPos)) { // King Solomon's algorithm
                     initPos = Math.round((container[0][options.pxSplit] - container.primaryDelta - splitbar.primaryDimension) / 2);
                 }
@@ -247,7 +250,6 @@
 
                 // Bail if splitter isn't visible or content isn't there yet
                 if (container.secondaryDimension <= 0 || container.primaryDimension <= 0) {
-                    console.log('bail!');
                     return;
                 }
 
@@ -285,7 +287,7 @@
                     .css(options.fixed, container.secondaryDimension - secondPane.secondaryDelta);
 
                 // IE fires resize for us; all others pay cash
-                if (!$.browser.msie || ($.browser.msie && parseInt($.browser.version, 10) >= 9)) {
+                if (!$.browser.msie || ($.browser.msie && parseInt($.browser.version, 10) >= 8)) {
                     firstPane.trigger("resize");
                     secondPane.trigger("resize");
                 }
