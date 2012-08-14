@@ -46,9 +46,15 @@
             }
 
             function initContainer() {
-                container.css({position: "relative"});
                 container.primaryDelta = 0;
                 container.secondaryDelta = 0;
+                
+                if (container.css('position') === 'absolute') {
+                    container.primaryDelta -= dimSum(container.parent(),
+                        "padding-" + options.side1);
+                }
+                
+                container.css('position', 'relative');
 
                 if ($.support.boxModel) {
                     container.primaryDelta = dimSum(container,
