@@ -262,9 +262,9 @@
                 // Re-divvy the adjustable dimension; maintain size of the preferred pane
                 if (isNaN(size)) { 
                     if(!(options.sizeRight || options.sizeBottom)) { 
-                        size = firstPane[0][options.pxSplit];
+                        size = firstPane['outer' + capitalize(options.split)](true);
                     } else {
-                        size = container.primaryDimension - secondPane[0][options.pxSplit] - splitbar.primaryDimension;
+                        size = container.primaryDimension - secondPane['outer' + capitalize(options.split)](true) - splitbar.primaryDimension;
                     }
                 }
                 resplit(size);
