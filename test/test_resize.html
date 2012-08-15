@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Horizontal Test</title>
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    var newWindow = null;
+    
+    $().ready(function() {
+        newWindow = window.open('vertical_split.html', 'Vertical Split', [100, 100]);
+        
+        $('#apply').click(applyHeight);
+    });
+    
+    function applyHeight() {
+        var width = $('#width').val(),
+            height = $('#height').val();
+            
+        newWindow.resizeTo(width, height);
+    }
+    </script>
+</head>
+
+<body>
+<input id="width"/>
+<input id="height"/>
+<input id="apply" type="button" value="Apply"/>
+</body>
+</html>
