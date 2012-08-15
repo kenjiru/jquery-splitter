@@ -48,12 +48,11 @@
             function initContainer() {
                 container.primaryDelta = 0;
                 container.secondaryDelta = 0;
-                
+
                 if (container.css('position') === 'absolute') {
-                    container.primaryDelta -= dimSum(container.parent(),
-                        "padding-" + options.side1);
+                    container.css('left', dimSum(container, 'left') - dimSum(container, 'padding-' + options.origin));
                 }
-                
+
                 container.css('position', 'relative');
 
                 if ($.support.boxModel) {
@@ -75,16 +74,19 @@
                 }
 
                 container.resize(resizeContainer);
-
-                // TODO Resize the container only if it's parent resizes
-                $(window).resize(function() {
-                    container.trigger("resize");
-                });
-
+                
+                if (!$.browser.msie || ($.browser.msie && parseInt($.browser.version, 10) >= 8)) {
+                    // TODO Resize the container only if it's parent resizes
+                    $(window).resize(function() {
+                        container.trigger("resize");
+                    });
+                }
+/*
                 // Resize event handler; triggered immediately to set initial position
                 $(document).load(function() {
                     container.trigger("resize");
                 });
+*/
             }
 
             function initPanes() {
@@ -271,6 +273,8 @@
             }
 
             function resplit(newPos) {
+                var containerOffset = 0;
+                
                 // Constrain new splitbar position to fit pane size limits
                 newPos = Math.max(firstPane.minSize,
                     container.primaryDimension - secondPane.maxSize,
@@ -287,11 +291,16 @@
                 firstPane/*.css(options.origin, container.offsetOrigin)*/ // we don't need to set the offset
                     .css(options.split, newPos - firstPane.primaryDelta)
                     .css(options.fixed, container.secondaryDimension - firstPane.secondaryDelta);
+                
+                // if the pane is not at the same time a container, add an offset
+                if (secondPane.css('position') === 'absolute') {
+                    containerOffset = container.offsetOrigin;
+                }
 
-                secondPane.css(options.origin, newPos + container.offsetOrigin + splitbar.primaryDimension)
+                secondPane.css(options.origin, newPos + containerOffset + splitbar.primaryDimension)
                     .css(options.split, container.primaryDimension - newPos - splitbar.primaryDimension - secondPane.primaryDelta)
                     .css(options.fixed, container.secondaryDimension - secondPane.secondaryDelta);
-
+                
                 // IE fires resize for us; all others pay cash
                 if (!$.browser.msie || ($.browser.msie && parseInt($.browser.version, 10) >= 8)) {
                     firstPane.trigger("resize");
